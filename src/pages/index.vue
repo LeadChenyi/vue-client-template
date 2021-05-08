@@ -35,6 +35,8 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
+
+        console.log(this.$code.calcMath(0.1 + 0.2, 2));
     },
     methods: {
         ...mapActions("app", ["setMessage"]),
