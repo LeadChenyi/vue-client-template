@@ -1,24 +1,5 @@
 # vue-client-template
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### tag
+- `v1.0.0` 脚手架基础模板
+- `v1.1.0` 开发通用模板
