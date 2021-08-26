@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
+import i18n from '@/i18n'
 
 // 数据模拟与网络请求
 // import '@/api/mock/index.js'
@@ -29,5 +30,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App),
 }).$mount('#app')
