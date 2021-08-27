@@ -4,18 +4,13 @@ import router from '@/router'
 import store from '@/store'
 import i18n from '@/i18n'
 
-// 数据模拟与网络请求
-// import '@/api/mock/index.js'
-import Api from '@/api/axios/index.js'
-Vue.prototype.$api = Api;
-
-// 自定义脚本插件
-import Code from '@/common/code'
-Vue.prototype.$code = Code;
-
-// 第三方插件代理注册
-import Plugins from '@/plugins'
+/*--- 自定义插件 ---*/
+import Plugins from '@/common/plugins.js'
 Vue.use(Plugins);
+
+/*--- 第三方依赖 ---*/
+import Vender from '@/common/vender.js'
+Vue.use(Vender);
 
 // 指令注册
 // import Directives from '@/directives'

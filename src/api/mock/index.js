@@ -1,13 +1,12 @@
 import Mock from 'mockjs'
-import BaseURL from '../baseURL'
 
 Mock.setup({
     timeout: '1000-1500'
 })
 
-Mock.mock(`${BaseURL.v1}/index/projects`, {
-    "statusCode": 200,
-    "statusText": "request:ok",
+Mock.mock(`${process.env.VUE_APP_BASE_URL}/index/projects`, {
+    "code": 200,
+    "message": "request:ok",
     "data": [
         {
             title: "Forum - 活力贴",

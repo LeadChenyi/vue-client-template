@@ -1,44 +1,71 @@
 import Axios from 'axios'
-import BaseURL from '../baseURL'
 import './interceptors'
 
-const Request = (options) => {
-    return new Promise((resolve,reject)=>{
+const Request = ({
+    url,
+    method = 'GET',
+    data = {},
+    params = {},
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest',
+    },
+    responseType = 'json',
+    showError = true
+}) => {
+    // if (method == 'POST' || method == 'PUT') {
+    //     data = querystring.stringify(data);
+    // }
+
+    return new Promise((resolve, reject) => {
         Axios({
-            baseURL:options.baseURL || BaseURL.v2,
-            url:options.url,
-            method:options.method || "get",
-            data:options.data,
-            headers:options.headers || {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With': 'XMLHttpRequest',
-            }
+            baseURL: process.env.VUE_APP_BASE_URL,
+            url,
+            method,
+            data,
+            params,
+            headers,
+            responseType
         }).then(res => {
-            resolve(res);
-        }).catch(err => { 
+            if (res.status == 200) {
+                resolve(res.data);
+                return false;
+            }
+
+            reject(res.statusText || new Error('请求异常'));
+        }).catch(err => {
+            if (showError) {
+                alert(JSON.stringify(err));
+            }
             reject(err);
         });
     })
 }
 
-export default {
-    photo:{
-        async getPhotos(){
-            return await Request({baseURL:BaseURL.v3,url:'/photos'});
-        },
-        async getPhotoById(albumId = 1){
-            return await Request({baseURL:BaseURL.v3,url:`/photos?albumId=${albumId}`});
+function UploadFile(file) {
+    let formData = new FormData();
+    formData.append('file', file);
+    return Request({
+        url: '/system/upload/file',
+        method: 'POST',
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
         }
-    },
-    index:{
-        getProjects(){
-            return Request({baseURL:BaseURL.v1,url:'/index/projects'});
-        },        
-        getJournals(){
-            return Request({baseURL:BaseURL.v1,url:'/index/journals'});
-        },
-        getAlbums(){
-            return Request({baseURL:BaseURL.v1,url:'/index/albums'});
-        }
-    }
-};
+    })
+}
+
+function DownloadFile(url, params) {
+    return Request({
+        url,
+        params,
+        responseType: 'blob'
+    })
+}
+
+export {
+    Request,
+    UploadFile,
+    DownloadFile
+}
+export default Request
